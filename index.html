@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Formulário individual para o pré-conselho de classe.">
+    <title>Pré-conselho de classe</title>
+    <style>
+        :root {
+            color-scheme: light;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            color: #1d2939;
+            background: #f3f6fa;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 32px 16px;
+        }
+
+        main {
+            width: min(100%, 820px);
+            margin: 0 auto;
+        }
+
+        header,
+        form,
+        #resultado {
+            background: #fff;
+            border: 1px solid #d8e0ea;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgb(16 24 40 / 5%);
+        }
+
+        header {
+            margin-bottom: 20px;
+            padding: 26px 30px;
+            border-top: 5px solid #176b55;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .brand-mark {
+            width: 42px;
+            height: 54px;
+            flex: 0 0 auto;
+        }
+
+        .brand-name {
+            display: flex;
+            flex-direction: column;
+            color: #176b55;
+            line-height: 1.15;
+        }
+
+        .brand-name strong {
+            font-size: 0.88rem;
+            letter-spacing: 0.04em;
+        }
+
+        .brand-name span {
+            margin-top: 3px;
+            font-size: 0.85rem;
+        }
+
+        h1,
+        h2,
+        p {
+            margin-top: 0;
+        }
+
+        h1 {
+            margin-bottom: 8px;
+            font-size: clamp(1.5rem, 4vw, 2rem);
+        }
+
+        header p,
+        .help,
+        .notice {
+            color: #475467;
+        }
+
+        header p:last-child {
+            margin-bottom: 0;
+        }
+
+        form {
+            padding: 28px 30px;
+        }
+
+        .progress {
+            margin-bottom: 24px;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 8px;
+            color: #475467;
+            font-size: 0.9rem;
+        }
+
+        progress {
+            display: block;
+            width: 100%;
+            height: 10px;
+            overflow: hidden;
+            border: 0;
+            border-radius: 99px;
+            background: #e4e7ec;
+            accent-color: #176b55;
+        }
+
+        progress::-webkit-progress-bar {
+            border-radius: 99px;
+            background: #e4e7ec;
+        }
+
+        progress::-webkit-progress-value {
+            border-radius: 99px;
+            background: #176b55;
+        }
+
+        .page[hidden] {
+            display: none;
+        }
+
+        .page > h2 {
+            margin-bottom: 8px;
+            font-size: 1.3rem;
+        }
+
+        .help {
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+
+        .validation-message {
+            margin: 0 0 16px;
+            padding: 10px 12px;
+            border: 1px solid #d92d20;
+            border-radius: 7px;
+            background: #fef3f2;
+            color: #b42318;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 16px;
+        }
+
+        .field label,
+        .question legend {
+            font-weight: 600;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #98a2b3;
+            border-radius: 7px;
+            background: #fff;
+            color: inherit;
+            font: inherit;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        input:focus,
+        textarea:focus,
+        button:focus-visible {
+            outline: 3px solid #84c5b2;
+            outline-offset: 2px;
+        }
+
+        .question {
+            min-width: 0;
+            margin: 0 0 22px;
+            padding: 0;
+            border: 0;
+        }
+
+        .question legend {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .options {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .option {
+            display: flex;
+            align-items: flex-start;
+            gap: 9px;
+            padding: 11px 12px;
+            border: 1px solid #d8e0ea;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+
+        .option:has(input:checked) {
+            border-color: #176b55;
+            background: #f0f8f5;
+        }
+
+        input[type="radio"],
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            flex: 0 0 auto;
+            margin: 1px 0 0;
+            accent-color: #176b55;
+        }
+
+        .observations {
+            margin-top: 28px;
+            padding-top: 18px;
+            border-top: 1px solid #e4e7ec;
+        }
+
+        .observations label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: 600;
+        }
+
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+            margin-top: 24px;
+            padding-top: 20px;
+            border-top: 1px solid #e4e7ec;
+        }
+
+        button {
+            min-height: 44px;
+            padding: 10px 16px;
+            border: 1px solid #176b55;
+            border-radius: 7px;
+            background: #176b55;
+            color: #fff;
+            font: inherit;
+            font-weight: 650;
+            cursor: pointer;
+        }
+
+        button.secondary {
+            background: #fff;
+            color: #176b55;
+        }
+
+        button:disabled {
+            opacity: 0.55;
+            cursor: not-allowed;
+        }
+
+        #resultado {
+            margin-top: 20px;
+            padding: 24px 30px;
+        }
+
+        #resumo {
+            overflow-wrap: anywhere;
+            white-space: pre-wrap;
+            font: inherit;
+            line-height: 1.6;
+        }
+
+        .notice {
+            margin: 14px 0 0;
+            font-size: 0.9rem;
+        }
+
+        [hidden] {
+            display: none !important;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 16px 10px;
+            }
+
+            header,
+            form,
+            #resultado {
+                padding: 20px 16px;
+            }
+
+            .grid,
+            .options {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media print {
+            body {
+                padding: 0;
+                background: #fff;
+            }
+
+            body.showing-summary header,
+            body.showing-summary form {
+                display: none !important;
+            }
+
+            body.showing-summary #resultado:not([hidden]) {
+                display: block !important;
+                border: 0;
+                box-shadow: none;
+                margin: 0;
+                padding: 0;
+            }
+
+            .print-hidden {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <header>
+            <div class="brand" aria-label="Instituto Federal do Piauí">
+                <svg class="brand-mark" viewBox="0 0 76 100" role="img" aria-labelledby="ifpi-mark-title">
+                    <title id="ifpi-mark-title">Símbolo do Instituto Federal</title>
+                    <circle cx="13" cy="12" r="10" fill="#e31b34"/>
+                    <g fill="#2e9d45">
+                        <rect x="28" y="2" width="21" height="21" rx="1"/>
+                        <rect x="54" y="2" width="21" height="21" rx="1"/>
+                        <rect x="2" y="28" width="21" height="21" rx="1"/>
+                        <rect x="28" y="28" width="21" height="21" rx="1"/>
+                        <rect x="2" y="54" width="21" height="21" rx="1"/>
+                        <rect x="28" y="54" width="21" height="21" rx="1"/>
+                        <rect x="54" y="54" width="21" height="21" rx="1"/>
+                        <rect x="2" y="80" width="21" height="20" rx="1"/>
+                        <rect x="28" y="80" width="21" height="20" rx="1"/>
+                    </g>
+                </svg>
+                <div class="brand-name">
+                    <strong>INSTITUTO FEDERAL</strong>
+                    <span>Piauí</span>
+                </div>
+            </div>
+            <h1>Pré-conselho de classe</h1>
+            <p>Este formulário é individual. Responda de acordo com sua experiência e opinião sobre a turma.</p>
+            <p class="help">Cada assunto fica em uma página. As perguntas são de alternativas; ao final de cada assunto, você pode registrar observações. As respostas não são enviadas a um servidor.</p>
+        </header>
+
+        <form id="formulario" novalidate>
+            <div class="progress" aria-label="Progresso do formulário">
+                <div class="progress-label">
+                    <span id="titulo-pagina">Identificação</span>
+                    <span id="contador-pagina"></span>
+                </div>
+                <progress id="progresso" max="12" value="1"></progress>
+            </div>
+            <p id="erro-validacao" class="validation-message" role="alert" hidden>Responda aos campos obrigatórios desta página para continuar.</p>
+
+            <section class="page" data-page data-page-title="Identificação">
+                <h2 tabindex="-1">Identificação</h2>
+                <p class="help">Preencha os dados da turma. Seu nome é opcional; deixe em branco se preferir responder sem identificação.</p>
+                <div class="grid">
+                    <div class="field">
+                        <label for="nome">Seu nome (opcional)</label>
+                        <input id="nome" name="nome" type="text" autocomplete="name">
+                    </div>
+                    <div class="field">
+                        <label for="turma">Turma <span aria-hidden="true">*</span></label>
+                        <input id="turma" name="turma" type="text" autocomplete="off" required>
+                    </div>
+                    <div class="field">
+                        <label for="periodo">Período letivo <span aria-hidden="true">*</span></label>
+                        <input id="periodo" name="periodo" type="text" placeholder="Ex.: 2026.2" required>
+                    </div>
+                    <div class="field">
+                        <label for="data">Data do preenchimento</label>
+                        <input id="data" name="data" type="date">
+                    </div>
+                </div>
+            </section>
+
+            <section class="page" data-page data-page-title="Conteúdos e atividades" hidden>
+                <h2 tabindex="-1">1. Conteúdos e atividades</h2>
+                <p class="help">Pense nas aulas e atividades deste período letivo.</p>
+                <fieldset class="question">
+                    <legend>Você teve dificuldade para acompanhar conteúdos ou realizar atividades?</legend>
+                    <div class="options">
+                        <label class="option"><input type="radio" name="conteudos-dificuldade" value="Sim, muitas vezes" required> Sim, muitas vezes</label>
+                        <label class="option"><input type="radio" name="conteudos-dificuldade" value="Sim, algumas vezes"> Sim, algumas vezes</label>
+                        <label class="option"><input type="radio" name="conteudos-dificuldade" value="Raramente"> Raramente</label>
+                        <label class="option"><input type="radio" name="conteudos-dificuldade" value="Não tive dificuldade"> Não tive dificuldade</label>
+                    </div>
+                </fieldset>
+                <fieldset class="question">
+                    <legend>O que mais dificultou? (marque todas as opções pertinentes)</legend>
+                    <div class="options">
+                        <label class="option"><input type="checkbox" name="conteudos-causas" value="Falta de conhecimentos anteriores"> Falta de conhecimentos anteriores</label>
+                        <label class="option"><input type="checkbox" name="conteudos-causas" value="Ritmo acelerado"> Ritmo acelerado</label>
+                        <label class="option"><input type="checkbox" name="conteudos-causas" value="Muitos conteúdos ao mesmo tempo"> Muitos conteúdos ao mesmo tempo</label>
+                        <label class="option"><input type="checkbox" name="conteudos-causas" value="Poucos exemplos ou explicações"> Poucos exemplos ou explicações</label>
+                        <label class="option"><input type="checkbox" name="conteudos-causas" value="Instruções difíceis de entender"> Instruções difíceis de entender</label>
+                        <label class="option"><input type="checkbox" name="conteudos-causas" value="Pouco tempo para fazer as atividades"> Pouco tempo para fazer as atividades</label>
+                        <label class="option"><input type="checkbox" name="conteudos-causas" value="Não se aplica"> Não se aplica</label>
+                    </div>
+                </fieldset>
+                <fieldset class="question">
+                    <legend>Com que frequência essa dificuldade prejudicou seus estudos?</legend>
+                    <div class="options">
+                        <label class="option"><input type="radio" name="conteudos-frequencia" value="Nunca"> Nunca</label>
+                        <label class="option"><input type="radio" name="conteudos-frequencia" value="Raramente"> Raramente</label>
+                        <label class="option"><input type="radio" name="conteudos-frequencia" value="Às vezes"> Às vezes</label>
+                        <label class="option"><input type="radio" name="conteudos-frequencia" value="Frequentemente"> Frequentemente</label>
+                    </div>
+                </fieldset>
+                <div class="observations">
+                    <label for="obs-conteudos">Observações sobre conteúdos e atividades (opcional)</label>
+                    <textarea id="obs-conteudos" name="obs-conteudos" data-observation></textarea>
+                </div>
+            </section>
+
+            <section class="page" data-page data-page-title="Metodologias e materiais" hidden>
+                <h2 tabindex="-1">2. Metodologias de ensino e materiais</h2>
+                <p class="help">Considere as formas de ensinar e os recursos usados nas disciplinas.</p>
+                <fieldset class="question">
+                    <legend>As formas de ensinar e os materiais ajudam você a aprender?</legend>
+                    <div class="options">
+                        <label class="option"><input type="radio" name="metodologias-adequacao" value="Sim, na maioria das aulas" required> Sim, na maioria das aulas</label>
+                        <label class="option"><input type="radio" name="metodologias-adequacao" value="Às vezes"> Às vezes</label>
+                        <label class="option"><input type="radio" name="metodologias-adequacao" value="Raramente"> Raramente</label>
+                        <label class="option"><input type="radio" name="metodologias-adequacao" value="Não ajudam"> Não ajudam</label>
+                    </div>
+                </fieldset>
+                <fieldset class="question">
+                    <legend>O que poderia ajudar você a aprender? (marque todas as opções pertinentes)</legend>
+                    <div class="options">
+                        <label class="option"><input type="checkbox" name="metodologias-sugestoes" value="Mais exemplos resolvidos"> Mais exemplos resolvidos</label>
+                        <label class="option"><input type="checkbox" name="metodologias-sugestoes" value="Mais atividades práticas"> Mais atividades práticas</label>
+                        <label class="option"><input type="checkbox" name="metodologias-sugestoes" value="Revisões e retomadas"> Revisões e retomadas</label>
+                        <label class="option"><input type="checkbox" name="metodologias-sugestoes" value="Materiais de apoio"> Materiais de apoio</label>
+                        <label class="option"><input type="checkbox" name="metodologias-sugestoes" value="Mais espaço para perguntas"> Mais espaço para perguntas</label>
+                        <label class="option"><input type="checkbox" name="metodologias-sugestoes" value="Aulas em outros formatos"> Aulas em outros formatos</label>
+                        <label class="option"><input type="checkbox" name="metodologias-sugestoes" value="Não preciso de mudanças"> Não preciso de mudanças</label>
+                    </div>
+                </fieldset>
+                <fieldset class="question">
+                    <legend>Os materiais necessários ficam disponíveis para você?</legend>
+                    <div class="options">
+                        <label class="option"><input type="radio" name="metodologias-materiais" value="Sempre" required> Sempre</label>
+                        <label class="option"><input type="radio" name="metodologias-materiais" value="Na maioria das vezes"> Na maioria das vezes</label>
+                        <label class="option"><input type="radio" name="metodologias-materiais" value="Raramente"> Raramente</label>
+                        <label class="option"><input type="radio" name="metodologias-materiais" value="Nunca"> Nunca</label>
+                    </div>
+                </fieldset>
+                <div class="observations">
+                    <label for="obs-metodologias">Observações sobre metodologias e materiais (opcional)</label>
+                    <textarea id="obs-metodologias" name="obs-metodologias" data-observation></textarea>
+                </div>
+            </section>
+
+            <section class="page" data-page data-page-title="Avaliações" hidden>
+                <h2 tabindex="-1">3. Avaliações</h2>
+                <p class="help">Considere provas, trabalhos, atividades avaliativas e devolutivas.</p>
+                <fieldset class="question">
+                    <legend>As avaliações correspondem ao que foi trabalhado nas aulas?</legend>
+                    <div class="options">
+                        <label class="option"><input type="radio" name="avaliacoes-conteudo" value="Sempre" required> Sempre</label>
+                        <label class="option"><input type="radio" name="avaliacoes-conteudo" value="Na maioria das vezes"> Na maioria das vezes</label>
+                        <label class="option"><input type="radio" name="avaliacoes-conteudo" value="Às vezes"> Às vezes</label>
+                        <label class="option"><input type="radio" name="avaliacoes-conteudo" value="Raramente ou nunca"> Raramente ou nunca</label>
+                    </div>
+                </fieldset>
+                <fieldset class="question">
+                    <legend>Com que clareza os critérios e as orientações são apresentados?</legend>
+                    <div class="options">
+                        <label class="option"><input type="radio" name="avaliacoes-criterios" value="Com muita clareza" required> Com muita clareza</label>
+                        <label class="option"><input type="radio" name="avaliacoes-criterios" value="Com alguma clareza"> Com alguma clareza</label>
+                        <label class="option"><input type="radio" name="avaliacoes-criterios" value="Pouco claros"> Pouco claros</label>
+                        <label class="option"><input type="radio" name="avaliacoes-criterios" value="Não são apresentados"> Não são apresentados</label>
+                    </div>
+                </fieldset>
+                <fieldset class="question">
+                    <legend>Que aspectos dificultam as avaliações? (marque todas as opções pertinentes)</legend>
+                    <div class="options">
+                        <label class="option"><input type="checkbox" name="avaliacoes-dificuldades" value="Pouco tempo"> Pouco tempo</label>
+                        <label class="option"><input type="checkbox" name="avaliacoes-dificuldades" value="Muitas questões ou tarefas"> Muitas questões ou tarefas</label>
+                        <label class="option"><input type="checkbox" name="avaliacoes-dificuldades" value="Enunciados pouco claros"> Enunciados pouco claros</label>
+                        <label class="option"><input type="checkbox" name="avaliacoes-dificuldades" value="Critérios de correção pouco claros"> Critérios de correção pouco claros</label>
+                        <label class="option"><input type="checkbox" name="avaliacoes-dificuldades" value="Demora para receber resultado ou orientação"> Demora para receber resultado ou orientação</label>
+                        <label class="option"><input type="checkbox" name="avaliacoes-dificuldades" value="Nenhum desses aspectos"> Nenhum desses aspectos</label>
+                    </div>
+                </fieldset>
+                <div class="observations">
+                    <label for="obs-avaliacoes">Observações sobre avaliações (opcional)</label>
+                    <textarea id="obs-avaliacoes" name="obs-avaliacoes" data-observation></textarea>
+                </div>
+            </section>
+
+            <section class="page" data-page data-page-title="Relacionamento e convivência" hidden>
+                <h2 tabindex="-1">4. Relacionamento e convivência</h2>
+                <p class="help">Responda sobre sua experiência. Não informe nomes ou dados pessoais nas observações.</p>
+                <fieldset class="question">
+                    <legend>Como você avalia a convivência na turma?</legend>
+                    <div class="options">
+                        <label class="option"><input type="radio" name="convivencia-turma" value="Muito boa" required> Muito boa</label>
+                        <label class="option"><input type="radio" name="convivencia-turma" value="Boa"> Boa</label>
+                        <label class="option"><input type="radio" name="convivencia-turma" value="Regular"> Regular</label>
+                        <label class="option"><input type="radio" name="convivencia-turma" value="Difícil"> Difícil</label>
+                    </div>
+                </fieldset>
+                <fieldset class="question">
+                    <legend>Em quais relações você percebe dificuldades? (marque todas as opções pertinentes)</legend>
+                    <div class="options">
+                        <label class="option"><input type="checkbox" name="convivencia-relacoes" value="Entre estudantes"> Entre estudantes</label>
+                        <label class="option"><input type="checkbox" name="convivencia-relacoes" value="Entre estudantes e professores"> Entre estudantes e professores</label>
+                        <label class="option"><input type="checkbox" name="convivencia-relacoes" value="Entre estudantes e equipes da escola"> Entre estudantes e equipes da escola</label>
+                        <label class="option"><input type="checkbox" name="convivencia-relacoes" value="Não percebo dificuldades"> Não percebo dificuldades</label>
+                    </div>
+                </fieldset>
+                <fieldset class="question">
+                    <legend>Com que frequência essas dificuldades afetam sua participação ou bem-estar?</legend>
+                    <div class="options">
+                        <label class="option"><input type="radio" name="convivencia-frequencia" value="Nunca" required> Nunca</label>
+                        <label class="option"><input type="radio" name="convivencia-frequencia" value="Raramente"> Raramente</label>
+                        <label class="option"><input type="radio" name="convivencia-frequencia" value="Às vezes"> Às vezes</label>
+                        <label class="option"><input type="radio" name="convivencia-frequencia" value="Frequentemente"> Frequentemente</label>
+                    </div>
+                </fieldset>
+                <fieldset class="question">
+                    <legend>Que iniciativa poderia melhorar a convivência?</legend>
+                    <div class="options">
+                        <label class="option"><input type="radio" name="convivencia-iniciativa" value="Mais diálogo entre envolvidos" required> Mais diálogo entre envolvidos</label>
+                        <label class="option"><input type="radio" name="convivencia-iniciativa" value="Mediação com apoio da escola"> Mediação com apoio da escola</label>
+                        <label class="option"><input type="radio" name="convivencia-iniciativa" value="Atividades de integração"> Atividades de integração</label>
+                        <label class="option"><input type="radio" name="convivencia-iniciativa" value="Não é necessária uma iniciativa"> Não é necessária uma iniciativa</label>
+                    </div>
+                </fieldset>
+                <div class="observations">
+                    <label for="obs-convivencia">Observações sobre relacionamento e convivência (opcional)</label>
+                    <textarea id="obs-convivencia" name="obs-convivencia" data-observation></textarea>
+                </div>
+            </section>
+
+            <section class="page" data-page data-page-title="Merenda escolar" hidden>
+                <h2 tabindex="-1">5. Merenda escolar</h2>
+                <fieldset class="question">
+                    <legend>Como você avalia a disponibilidade da merenda nos dias letivos?</legend>
+                    <div class="options">
+                        <label class="option"><input type="radio" name="merenda-disponibilidade" value="Sempre disponível" required> Sempre disponível</label>
+                        <label class="option"><input type="radio" name="merenda-disponibilidade" value="Disponível na maioria dos dias"> Disponível na maioria dos dias</label>
+                        <label class="option"><input type="radio" name="merenda-disponibilidade" value="Falta em alguns dias"> Falta em alguns dias</label>
+                        <label class="option"><input type="radio" name="merenda-disponibilidade" value="Não sei avaliar"> Não sei avaliar</label>
+                    </div>
+                </fieldset>
+                <fieldset class="question">
+                    <legend>Que aspectos da merenda poderiam melhorar? (marque todas as opções pertinentes)</legend>
+                    <div class="options">
+                        <label class="option"><input type="checkbox" name="merenda-aspectos" value="Quantidade"> Quantidade</label>
+                        <label class="option"><input type="checkbox" name="merenda-aspectos" value="Variedade do cardápio"> Variedade do cardápio</label>
+                        <label class="option"><input type="checkbox" name="merenda-aspectos" value="Qualidade"> Qualidade</label>
+                        <label class="option"><input type="checkbox" name="merenda-aspectos" value="Horário de distribuição"> Horário de distribuição</label>
+                        <label class="option"><input type="checkbox" name="merenda-aspectos" value="Espaço para refeição"> Espaço para refeição</label>
+                        <label class="option"><input type="checkbox" name="merenda-aspectos" value="Nenhum desses aspectos"> Nenhum desses aspectos</label>
+                    </div>
+                </fieldset>
+                <fieldset class="question">
+                    <legend>O horário da merenda é adequado para você?</legend>
+                    <div class="options">
+                        <label class="option"><input type="radio" name="merenda-horario" value="Sim" required> Sim</label>
+                        <label class="option"><input type="radio" name="merenda-horario" value="Em parte"> Em parte</label>
+                        <label class="option"><input type="radio" name="merenda-horario" value="Não"> Não</label>
+                        <label class="option"><input type="radio" name="merenda-horario" value="Não sei avaliar"> Não sei avaliar</label>
+                    </div>
+                </fieldset>
+                <div class="observations">
+                    <label for="obs-merenda">Observações sobre merenda escolar (opcional)</label>
+                    <textarea id="obs-merenda" name="obs-merenda" data-observation></textarea>
+                </div>
+            </section>
+
+            <section class="page" data-page data-page-title="Transporte escolar" hidden>
+                <h2 tabindex="-1">6. Transporte escolar</h2>
+                <fieldset class="question">
+                    <legend>Você utiliza transporte escolar?</legend>
+                    <div class="options">
+                        <label class="option"><input type="radio" name="transporte-uso" value="Sim, regularmente" required> Sim, regularmente</label>
+                        <label class="option"><input type="radio" name="transporte-uso" value="Sim, às vezes"> Sim, às vezes</label>
+                        <label class="option"><input type="radio" name="transporte-uso" value="Não utilizo"> Não utilizo</label>
+                    </div>
+                </fieldset>
+                <fieldset class="question">
+                    <legend>Como você avalia o serviço de transporte?</legend>
+                    <div class="options">
+                        <label class="option"><input type="radio" name="transporte-avaliacao" value="Muito bom" required> Muito bom</label>
+                        <label class="option"><input type="radio" name="transporte-avaliacao" value="Bom"> Bom</label>
+                        <label class="option"><input type="radio" name="transporte-avaliacao" value="Regular"> Regular</label>
+                        <label class="option"><input type="radio" name="transporte-avaliacao" value="Ruim"> Ruim</label>
+                        <label class="option"><input type="radio" name="transporte-avaliacao" value="Não sei avaliar"> Não sei avaliar</label>
+                    </div>
+                </fieldset>
+                <fieldset class="question">
+                    <legend>Que problemas você já enfrentou? (marque todas as opções pertinentes)</legend>
+                    <div class="options">
+                        <label class="option"><input type="checkbox" name="transporte-problemas" value="Atrasos"> Atrasos</label>
+                        <label class="option"><input type="checkbox" name="transporte-problemas" value="Cancelamentos ou falta do transporte"> Cancelamentos ou falta do transporte</label>
+                        <label class="option"><input type="checkbox" name="transporte-problemas" value="Horários incompatíveis"> Horários incompatíveis</label>
+                        <label class="option"><input type="checkbox" name="transporte-problemas" value="Condições do veículo"> Condições do veículo</label>
+                        <label class="option"><input type="checkbox" name="transporte-problemas" value="Não enfrentei problemas"> Não enfrentei problemas</label>
+                        <label class="option"><input type="checkbox" name="transporte-problemas" value="Não utilizo transporte"> Não utilizo transporte</label>
+                    </div>
+                </fieldset>
+                <div class="observations">
+                    <label for="obs-transporte">Observações sobre transporte escolar (opcional)</label>
+                    <textarea id="obs-transporte" name="obs-transporte" data-observation></textarea>
+                </div>
+            </section>
+
+            <section class="page" data-page data-page-title="Funcionamento dos setores" hidden>
+                <h2 tabindex="-1">7. Funcionamento dos setores</h2>
+                <p class="help">Considere serviços como secretaria, coordenação, biblioteca ou outros setores que você utiliza.</p>
+                <fieldset class="question">
+                    <legend>Você consegue acessar os setores e serviços de que precisa?</legend>
+                    <div class="options">
+                        <label class="option"><input type="radio" name="setores-acesso" value="Sempre" required> Sempre</label>
+                        <label class="option"><input type="radio" name="setores-acesso" value="Na maioria das vezes"> Na maioria das vezes</label>
+                        <label class="option"><input type="radio" name="setores-acesso" value="Às vezes"> Às vezes</label>
+                        <label class="option"><input type="radio" name="setores-acesso" value="Raramente"> Raramente</label>
+                        <label class="option"><input type="radio" name="setores-acesso" value="Não utilizei esses serviços"> Não utilizei esses serviços</label>
+                    </div>
+                </fieldset>
+                <fieldset class="question">
+                    <legend>O que dificulta o atendimento? (marque todas as opções pertinentes)</legend>
+                    <div class="options">
+                        <label class="option"><input type="checkbox" name="setores-dificuldades" value="Horário de atendimento"> Horário de atendimento</label>
+                        <label class="option"><input type="checkbox" name="setores-dificuldades" value="Falta de informação"> Falta de informação</label>
+                        <label class="option"><input type="checkbox" name="setores-dificuldades" value="Demora no atendimento"> Demora no atendimento</label>
+                        <label class="option"><input type="checkbox" name="setores-dificuldades" value="Dificuldade para acompanhar solicitações"> Dificuldade para acompanhar solicitações</label>
+                        <label class="option"><input type="checkbox" name="setores-dificuldades" value="Não tive dificuldades"> Não tive dificuldades</label>
+                    </div>
+                </fieldset>
+                <fieldset class="question">
+                    <legend>Quando você precisa de ajuda, recebe orientação suficiente?</legend>
+                    <div class="options">
+                        <label class="option"><input type="radio" name="setores-orientacao" value="Sempre" required> Sempre</label>
+                        <label class="option"><input type="radio" name="setores-orientacao" value="Às vezes"> Às vezes</label>
+                        <label class="option"><input type="radio" name="setores-orientacao" value="Raramente"> Raramente</label>
+                        <label class="option"><input type="radio" name="setores-orientacao" value="Não precisei de ajuda"> Não precisei de ajuda</label>
+                    </div>
+                </fieldset>
+                <div class="observations">
+                    <label for="obs-setores">Observações sobre o funcionamento dos setores (opcional)</label>
+                    <textarea id="obs-setores" name="obs-setores" data-observation></textarea>
+                </div>
+            </section>
+
+            <section class="page" data-page data-page-title="Estrutura física" hidden>
+                <h2 tabindex="-1">8. Estrutura física</h2>
+                <fieldset class="question">
+                    <legend>Como você avalia os espaços utilizados nas atividades escolares?</legend>
+                    <div class="options">
+                        <label class="option"><input type="radio" name="estrutura-avaliacao" value="Muito bons" required> Muito bons</label>
+                        <label class="option"><input type="radio" name="estrutura-avaliacao" value="Bons"> Bons</label>
+                        <label class="option"><input type="radio" name="estrutura-avaliacao" value="Regulares"> Regulares</label>
+                        <label class="option"><input type="radio" name="estrutura-avaliacao" value="Ruins"> Ruins</label>
+                        <label class="option"><input type="radio" name="estrutura-avaliacao" value="Não sei avaliar"> Não sei avaliar</label>
+                    </div>
+                </fieldset>
+                <fieldset class="question">
+                    <legend>Quais espaços ou condições precisam de melhoria? (marque todas as opções pertinentes)</legend>
+                    <div class="options">
+                        <label class="option"><input type="checkbox" name="estrutura-espacos" value="Salas de aula"> Salas de aula</label>
+                        <label class="option"><input type="checkbox" name="estrutura-espacos" value="Banheiros ou bebedouros"> Banheiros ou bebedouros</label>
+                        <label class="option"><input type="checkbox" name="estrutura-espacos" value="Biblioteca ou laboratórios"> Biblioteca ou laboratórios</label>
+                        <label class="option"><input type="checkbox" name="estrutura-espacos" value="Acessibilidade"> Acessibilidade</label>
+                        <label class="option"><input type="checkbox" name="estrutura-espacos" value="Iluminação, ventilação ou mobiliário"> Iluminação, ventilação ou mobiliário</label>
+                        <label class="option"><input type="checkbox" name="estrutura-espacos" value="Limpeza ou conservação"> Limpeza ou conservação</label>
+                        <label class="option"><input type="checkbox" name="estrutura-espacos" value="Nenhuma melhoria necessária"> Nenhuma melhoria necessária</label>
+                    </div>
+                </fieldset>
+                <fieldset class="question">
+                    <legend>As condições dos espaços atrapalham sua aprendizagem ou participação?</legend>
+                    <div class="options">
+                        <label class="option"><input type="radio" name="estrutura-impacto" value="Frequentemente" required> Frequentemente</label>
+                        <label class="option"><input type="radio" name="estrutura-impacto" value="Às vezes"> Às vezes</label>
+                        <label class="option"><input type="radio" name="estrutura-impacto" value="Raramente"> Raramente</label>
+                        <label class="option"><input type="radio" name="estrutura-impacto" value="Não atrapalham"> Não atrapalham</label>
+                    </div>
+                </fieldset>
+                <div class="observations">
+                    <label for="obs-estrutura">Observações sobre a estrutura física (opcional)</label>
+                    <textarea id="obs-estrutura" name="obs-estrutura" data-observation></textarea>
+                </div>
+            </section>
+
+            <section class="page" data-page data-page-title="Recursos didáticos e equipamentos" hidden>
+                <h2 tabindex="-1">9. Recursos didáticos e equipamentos</h2>
+                <fieldset class="question">
+                    <legend>Os equipamentos e recursos didáticos disponibilizados pela escola atendem às suas necessidades de aprendizagem?</legend>
+                    <div class="options">
+                        <label class="option"><input type="radio" name="recursos-acesso" value="Sempre" required> Sempre</label>
+                        <label class="option"><input type="radio" name="recursos-acesso" value="Na maioria das vezes"> Na maioria das vezes</label>
+                        <label class="option"><input type="radio" name="recursos-acesso" value="Às vezes"> Às vezes</label>
+                        <label class="option"><input type="radio" name="recursos-acesso" value="Raramente"> Raramente</label>
+                        <label class="option"><input type="radio" name="recursos-acesso" value="Nunca"> Nunca</label>
+                        <label class="option"><input type="radio" name="recursos-acesso" value="Não precisei utilizar"> Não precisei utilizar</label>
+                    </div>
+                </fieldset>
+                <fieldset class="question">
+                    <legend>Quais recursos da escola você utiliza ou precisa para as atividades? (marque todas as opções pertinentes)</legend>
+                    <div class="options">
+                        <label class="option"><input type="checkbox" name="recursos-problemas" value="Computadores disponibilizados pela escola"> Computadores disponibilizados pela escola</label>
+                        <label class="option"><input type="checkbox" name="recursos-problemas" value="Projetores ou telas"> Projetores ou telas</label>
+                        <label class="option"><input type="checkbox" name="recursos-problemas" value="Equipamentos e materiais de laboratório"> Equipamentos e materiais de laboratório</label>
+                        <label class="option"><input type="checkbox" name="recursos-problemas" value="Livros, apostilas ou materiais impressos"> Livros, apostilas ou materiais impressos</label>
+                        <label class="option"><input type="checkbox" name="recursos-problemas" value="Internet da escola usada em atividades orientadas"> Internet da escola usada em atividades orientadas</label>
+                        <label class="option"><input type="checkbox" name="recursos-problemas" value="Não preciso desses recursos"> Não preciso desses recursos</label>
+                    </div>
+                </fieldset>
+                <fieldset class="question">
+                    <legend>Quando a escola propõe atividades que precisam de internet, como você costuma realizá-las?</legend>
+                    <div class="options">
+                        <label class="option"><input type="radio" name="recursos-frequencia" value="Com computador ou recurso fornecido pela escola" required> Com computador ou recurso fornecido pela escola</label>
+                        <label class="option"><input type="radio" name="recursos-frequencia" value="Em casa, fora do horário escolar"> Em casa, fora do horário escolar</label>
+                        <label class="option"><input type="radio" name="recursos-frequencia" value="Com material impresso ou alternativa offline"> Com material impresso ou alternativa offline</label>
+                        <label class="option"><input type="radio" name="recursos-frequencia" value="Tenho dificuldade para realizar essas atividades"> Tenho dificuldade para realizar essas atividades</label>
+                        <label class="option"><input type="radio" name="recursos-frequencia" value="Não recebi atividades que precisassem de internet"> Não recebi atividades que precisassem de internet</label>
+                    </div>
+                </fieldset>
+                <fieldset class="question">
+                    <legend>Se uma atividade precisar de internet durante a aula, há um equipamento da escola disponível para você?</legend>
+                    <div class="options">
+                        <label class="option"><input type="radio" name="recursos-escola" value="Sempre" required> Sempre</label>
+                        <label class="option"><input type="radio" name="recursos-escola" value="Na maioria das vezes"> Na maioria das vezes</label>
+                        <label class="option"><input type="radio" name="recursos-escola" value="Raramente"> Raramente</label>
+                        <label class="option"><input type="radio" name="recursos-escola" value="Nunca"> Nunca</label>
+                        <label class="option"><input type="radio" name="recursos-escola" value="Não se aplica"> Não se aplica</label>
+                    </div>
+                </fieldset>
+                <div class="observations">
+                    <label for="obs-recursos">Observações sobre recursos didáticos e equipamentos (opcional)</label>
+                    <textarea id="obs-recursos" name="obs-recursos" data-observation></textarea>
+                </div>
+            </section>
+
+            <section class="page" data-page data-page-title="Outro assunto" hidden>
+                <h2 tabindex="-1">10. Outro assunto</h2>
+                <fieldset class="question">
+                    <legend>Há outro assunto administrativo ou da escola que você gostaria de registrar?</legend>
+                    <div class="options">
+                        <label class="option"><input type="radio" name="outro-existencia" value="Sim" required> Sim</label>
+                        <label class="option"><input type="radio" name="outro-existencia" value="Não"> Não</label>
+                        <label class="option"><input type="radio" name="outro-existencia" value="Não tenho opinião formada"> Não tenho opinião formada</label>
+                    </div>
+                </fieldset>
+                <fieldset class="question">
+                    <legend>Se sim, a que área esse assunto está relacionado?</legend>
+                    <div class="options">
+                        <label class="option"><input type="checkbox" name="outro-area" value="Comunicação"> Comunicação</label>
+                        <label class="option"><input type="checkbox" name="outro-area" value="Organização da rotina escolar"> Organização da rotina escolar</label>
+                        <label class="option"><input type="checkbox" name="outro-area" value="Atendimento aos estudantes"> Atendimento aos estudantes</label>
+                        <label class="option"><input type="checkbox" name="outro-area" value="Acessibilidade ou inclusão"> Acessibilidade ou inclusão</label>
+                        <label class="option"><input type="checkbox" name="outro-area" value="Outra área"> Outra área</label>
+                        <label class="option"><input type="checkbox" name="outro-area" value="Não se aplica"> Não se aplica</label>
+                    </div>
+                </fieldset>
+                <fieldset class="question">
+                    <legend>Qual encaminhamento parece mais adequado?</legend>
+                    <div class="options">
+                        <label class="option"><input type="radio" name="outro-encaminhamento" value="Mais informações aos estudantes" required> Mais informações aos estudantes</label>
+                        <label class="option"><input type="radio" name="outro-encaminhamento" value="Revisão de procedimento"> Revisão de procedimento</label>
+                        <label class="option"><input type="radio" name="outro-encaminhamento" value="Melhoria de espaço ou recurso"> Melhoria de espaço ou recurso</label>
+                        <label class="option"><input type="radio" name="outro-encaminhamento" value="Diálogo com a gestão"> Diálogo com a gestão</label>
+                        <label class="option"><input type="radio" name="outro-encaminhamento" value="Não se aplica"> Não se aplica</label>
+                    </div>
+                </fieldset>
+                <div class="observations">
+                    <label for="obs-outro">Observações sobre outro assunto (opcional)</label>
+                    <textarea id="obs-outro" name="obs-outro" data-observation></textarea>
+                </div>
+            </section>
+
+            <section class="page" data-page data-page-title="Apoios e propostas" hidden>
+                <h2 tabindex="-1">11. Apoios e propostas</h2>
+                <p class="help">Marque as ações que, na sua opinião, poderiam ajudar. Selecione quantas opções quiser.</p>
+                <fieldset class="question">
+                    <legend>O que você pode fazer para apoiar sua aprendizagem?</legend>
+                    <div class="options">
+                        <label class="option"><input type="checkbox" name="apoio-pessoal" value="Organizar rotina de estudos"> Organizar rotina de estudos</label>
+                        <label class="option"><input type="checkbox" name="apoio-pessoal" value="Participar de grupos de estudo"> Participar de grupos de estudo</label>
+                        <label class="option"><input type="checkbox" name="apoio-pessoal" value="Pedir ajuda quando necessário"> Pedir ajuda quando necessário</label>
+                        <label class="option"><input type="checkbox" name="apoio-pessoal" value="Participar mais das aulas"> Participar mais das aulas</label>
+                        <label class="option"><input type="checkbox" name="apoio-pessoal" value="Não sei ainda"> Não sei ainda</label>
+                    </div>
+                </fieldset>
+                <fieldset class="question">
+                    <legend>Que ações da escola ou dos professores seriam mais úteis?</legend>
+                    <div class="options">
+                        <label class="option"><input type="checkbox" name="apoio-escola" value="Revisões e atividades de reforço"> Revisões e atividades de reforço</label>
+                        <label class="option"><input type="checkbox" name="apoio-escola" value="Mais clareza nas orientações"> Mais clareza nas orientações</label>
+                        <label class="option"><input type="checkbox" name="apoio-escola" value="Devolutivas sobre atividades e avaliações"> Devolutivas sobre atividades e avaliações</label>
+                        <label class="option"><input type="checkbox" name="apoio-escola" value="Atendimento para tirar dúvidas"> Atendimento para tirar dúvidas</label>
+                        <label class="option"><input type="checkbox" name="apoio-escola" value="Melhorias de recursos ou espaços"> Melhorias de recursos ou espaços</label>
+                        <label class="option"><input type="checkbox" name="apoio-escola" value="Apoio para convivência e bem-estar"> Apoio para convivência e bem-estar</label>
+                        <label class="option"><input type="checkbox" name="apoio-escola" value="Não sei indicar"> Não sei indicar</label>
+                    </div>
+                </fieldset>
+                <fieldset class="question">
+                    <legend>Qual deve ser a prioridade?</legend>
+                    <div class="options">
+                        <label class="option"><input type="radio" name="prioridade" value="Aprendizagem e conteúdos" required> Aprendizagem e conteúdos</label>
+                        <label class="option"><input type="radio" name="prioridade" value="Metodologias e avaliações"> Metodologias e avaliações</label>
+                        <label class="option"><input type="radio" name="prioridade" value="Relacionamento e convivência"> Relacionamento e convivência</label>
+                        <label class="option"><input type="radio" name="prioridade" value="Serviços e estrutura"> Serviços e estrutura</label>
+                        <label class="option"><input type="radio" name="prioridade" value="Todas são igualmente importantes"> Todas são igualmente importantes</label>
+                    </div>
+                </fieldset>
+                <div class="observations">
+                    <label for="obs-propostas">Observações finais (opcional)</label>
+                    <textarea id="obs-propostas" name="obs-propostas" data-observation></textarea>
+                </div>
+            </section>
+
+            <div class="actions">
+                <button id="anterior" class="secondary" type="button">Voltar</button>
+                <button id="proximo" type="button">Próxima página</button>
+                <button id="concluir" type="submit" hidden>Gerar meu resumo</button>
+                <button id="limpar" class="secondary" type="reset">Limpar respostas</button>
+            </div>
+            <p class="notice">As respostas ficam neste navegador. Ao concluir, você poderá baixar ou imprimir seu resumo individual.</p>
+        </form>
+
+        <section id="resultado" aria-labelledby="titulo-resultado" aria-live="polite" hidden>
+            <h2 id="titulo-resultado">Resumo individual do pré-conselho</h2>
+            <pre id="resumo"></pre>
+            <div class="actions print-hidden">
+                <button id="baixar" type="button">Baixar resumo (.txt)</button>
+                <button id="imprimir" class="secondary" type="button">Imprimir / salvar em PDF</button>
+                <button id="editar" class="secondary" type="button">Voltar e editar</button>
+            </div>
+        </section>
+    </main>
+    <script src="scripts.js"></script>
+</body>
+</html>
