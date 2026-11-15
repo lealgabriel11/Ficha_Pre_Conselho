@@ -1,0 +1,464 @@
+:root {
+    color-scheme: light;
+    --verde: #176b55;
+    --verde-escuro: #0f5240;
+    --verde-claro: #e8f4ef;
+    --texto: #101828;
+    --texto-suave: #667085;
+    --borda: #e4e7ec;
+    --fundo: #f6f8f7;
+    --raio: 16px;
+    font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color: var(--texto);
+    background: var(--fundo);
+    line-height: 1.5;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 40px 16px 64px;
+    background:
+        radial-gradient(900px 300px at 50% -120px, #d7ece4 0%, transparent 70%),
+        var(--fundo);
+}
+
+main {
+    width: min(100%, 760px);
+    margin: 0 auto;
+}
+
+/* Cabeçalho sem caixa: mais leve */
+header {
+    margin-bottom: 24px;
+    padding: 0 4px;
+}
+
+form,
+#resultado {
+    background: #fff;
+    border: 1px solid var(--borda);
+    border-radius: var(--raio);
+    box-shadow: 0 1px 2px rgb(16 24 40 / 4%), 0 12px 32px rgb(16 24 40 / 6%);
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.brand-mark {
+    width: 34px;
+    height: 44px;
+    flex: 0 0 auto;
+}
+
+.brand-name {
+    display: flex;
+    flex-direction: column;
+    color: var(--verde);
+    line-height: 1.15;
+}
+
+.brand-name strong {
+    font-size: 0.82rem;
+    letter-spacing: 0.04em;
+}
+
+.brand-name span {
+    margin-top: 2px;
+    font-size: 0.82rem;
+}
+
+h1,
+h2,
+p {
+    margin-top: 0;
+}
+
+h1 {
+    margin-bottom: 10px;
+    font-size: clamp(1.8rem, 5vw, 2.4rem);
+    font-weight: 750;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+}
+
+header p,
+.help,
+.notice {
+    color: var(--texto-suave);
+}
+
+header p {
+    max-width: 62ch;
+}
+
+header p:last-child {
+    margin-bottom: 0;
+}
+
+form {
+    padding: 32px;
+}
+
+/* Progresso */
+.progress {
+    margin-bottom: 28px;
+}
+
+.progress-label {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 10px;
+    color: var(--texto-suave);
+    font-size: 0.875rem;
+}
+
+#titulo-pagina {
+    color: var(--texto);
+    font-weight: 600;
+}
+
+progress {
+    display: block;
+    width: 100%;
+    height: 6px;
+    overflow: hidden;
+    border: 0;
+    border-radius: 99px;
+    background: var(--borda);
+    accent-color: var(--verde);
+}
+
+progress::-webkit-progress-bar {
+    border-radius: 99px;
+    background: var(--borda);
+}
+
+progress::-webkit-progress-value {
+    border-radius: 99px;
+    background: var(--verde);
+    transition: width 0.3s ease;
+}
+
+progress::-moz-progress-bar {
+    border-radius: 99px;
+    background: var(--verde);
+}
+
+.page[hidden] {
+    display: none;
+}
+
+.page > h2 {
+    margin-bottom: 6px;
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    outline: none;
+}
+
+.help {
+    margin-bottom: 24px;
+    font-size: 0.95rem;
+}
+
+.validation-message {
+    margin: 0 0 20px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    background: #fef3f2;
+    color: #b42318;
+    font-size: 0.925rem;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 4px 16px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 16px;
+}
+
+.field label,
+.question legend,
+.observations label {
+    font-weight: 600;
+}
+
+.field label {
+    font-size: 0.925rem;
+}
+
+input[type="text"],
+input[type="date"],
+textarea {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1px solid #d0d5dd;
+    border-radius: 10px;
+    background: #fff;
+    color: inherit;
+    font: inherit;
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+input[type="text"]:hover,
+input[type="date"]:hover,
+textarea:hover {
+    border-color: #98a2b3;
+}
+
+textarea {
+    min-height: 110px;
+    resize: vertical;
+}
+
+input[type="text"]:focus,
+input[type="date"]:focus,
+textarea:focus {
+    outline: none;
+    border-color: var(--verde);
+    box-shadow: 0 0 0 4px rgb(23 107 85 / 14%);
+}
+
+button:focus-visible,
+.option:has(input:focus-visible) {
+    outline: 3px solid #84c5b2;
+    outline-offset: 2px;
+}
+
+/* Perguntas e opções */
+.question {
+    min-width: 0;
+    margin: 0 0 28px;
+    padding: 0;
+    border: 0;
+}
+
+.question legend {
+    width: 100%;
+    margin-bottom: 12px;
+    padding: 0;
+    line-height: 1.4;
+}
+
+.options {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+}
+
+.option {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 14px;
+    border: 1px solid var(--borda);
+    border-radius: 12px;
+    background: #fff;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: border-color 0.15s, background-color 0.15s;
+}
+
+.option:hover {
+    border-color: #98a2b3;
+    background: #fafbfc;
+}
+
+.option:has(input:checked) {
+    border-color: var(--verde);
+    background: var(--verde-claro);
+    box-shadow: inset 0 0 0 1px var(--verde);
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    flex: 0 0 auto;
+    margin: 2px 0 0;
+    accent-color: var(--verde);
+}
+
+.observations {
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid var(--borda);
+}
+
+.observations label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.925rem;
+}
+
+/* Ações */
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    margin-top: 28px;
+    padding-top: 24px;
+    border-top: 1px solid var(--borda);
+}
+
+#limpar {
+    margin-left: auto;
+}
+
+button {
+    min-height: 44px;
+    padding: 10px 20px;
+    border: 1px solid var(--verde);
+    border-radius: 99px;
+    background: var(--verde);
+    color: #fff;
+    font: inherit;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.15s, border-color 0.15s;
+}
+
+button:hover:not(:disabled) {
+    background: var(--verde-escuro);
+    border-color: var(--verde-escuro);
+}
+
+button.secondary {
+    border-color: #d0d5dd;
+    background: #fff;
+    color: var(--texto);
+}
+
+button.secondary:hover:not(:disabled) {
+    border-color: var(--verde);
+    background: var(--verde-claro);
+    color: var(--verde-escuro);
+}
+
+button:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+#resultado {
+    margin-top: 20px;
+    padding: 32px;
+}
+
+#resumo {
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+    font: inherit;
+    line-height: 1.7;
+}
+
+.notice {
+    margin: 16px 0 0;
+    font-size: 0.85rem;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        transition: none !important;
+    }
+}
+
+@media (max-width: 600px) {
+    body {
+        padding: 24px 12px 48px;
+    }
+
+    form,
+    #resultado {
+        padding: 22px 18px;
+    }
+
+    .grid,
+    .options {
+        grid-template-columns: 1fr;
+    }
+
+    .actions button {
+        flex: 1 1 auto;
+    }
+
+    #limpar {
+        margin-left: 0;
+    }
+}
+
+@media print {
+    body {
+        padding: 0;
+        background: #fff;
+    }
+
+    body.showing-summary header,
+    body.showing-summary form {
+        display: none !important;
+    }
+
+    body.showing-summary #resultado:not([hidden]) {
+        display: block !important;
+        border: 0;
+        box-shadow: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .print-hidden {
+        display: none !important;
+    }
+}
+
+/* Usabilidade: obrigatórias e erros */
+.question.required legend::after,
+.field label span[aria-hidden] {
+    color: #d92d20;
+}
+
+.question.required legend::after {
+    content: " *";
+}
+
+.question.has-error {
+    padding: 14px;
+    margin-inline: -14px;
+    border-radius: 12px;
+    background: #fef3f2;
+    box-shadow: inset 0 0 0 1px #fda29b;
+}
+
+.question.has-error legend {
+    color: #b42318;
+}
+
+.field.has-error input {
+    border-color: #d92d20;
+    box-shadow: 0 0 0 4px rgb(217 45 32 / 12%);
+}
+
+.field.has-error label {
+    color: #b42318;
+}
