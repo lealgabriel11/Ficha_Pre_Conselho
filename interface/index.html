@@ -10,9 +10,9 @@
 </head>
 <body>
     
-      <form class="max-w-150 mx-auto  my-3 bg-white p-11 rounded-lg shadow-lg border-t-5 border-t-green-500">
+      <form class="max-w-150 md:max-w-180 mx-auto  my-4 bg-white p-11 rounded-lg shadow-lg border-t-5  border-t-green-500">
 
-        <h1 class="text-3xl font-bold underline ">
+        <h1 class="text-3xl font-bold my-1  ">
             Ficha do Pré Conselho
         </h1>
 
@@ -39,54 +39,55 @@
         
       </form>
 
-      <form class=" max-w-150 mx-auto bg-white py-11 px-11 rounded-lg  shadow-lg">
+      <form class="max-w-150 md:max-w-180 mx-auto rounded-b-none -my-1    bg-white py-7 px-11 rounded-lg shadow-lg">
+        
+        <h2 class="mb-6 text-center text-3xl font-bold text-gray-800">Tópico: Ensino</h2>
 
-            <h2 class="flex text-2xl py-2 font-bold justify-center  "> topico 1 </h2 >
+        <fieldset>
+          <legend class="mb-4 text-lg font-bold text-gray-800">
+            O método de ensino é agradável?
+          </legend>
 
+          <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            <label for="q1" class="flex cursor-pointer items-center gap-3 rounded-lg border border-gray-200 bg-slate-50 p-4 transition hover:border-green-500 hover:bg-green-50">
+              <input class="h-4 w-4 accent-green-600" type="radio" name="metodo_ensino" id="q1" value="muito_agradavel">
+              <span>Muito agradável</span>
+            </label>
 
+            <label for="q2" class="flex cursor-pointer items-center gap-3 rounded-lg border border-gray-200 bg-slate-50 p-4 transition hover:border-green-500 hover:bg-green-50">
+              <input class="h-4 w-4 accent-green-600" type="radio" name="metodo_ensino" id="q2" value="agradavel">
+              <span>Agradável</span>
+            </label>
 
+            <label for="q3" class="flex cursor-pointer items-center gap-3 rounded-lg border border-gray-200 bg-slate-50 p-4 transition hover:border-green-500 hover:bg-green-50">
+              <input class="h-4 w-4 accent-green-600" type="radio" name="metodo_ensino" id="q3" value="regular">
+              <span>Regular</span>
+            </label>
 
-            <div class="grid grid-cols-3    gap-y-8 gap-x-4">
+            <label for="q4" class="flex cursor-pointer items-center gap-3 rounded-lg border border-gray-200 bg-slate-50 p-4 transition hover:border-green-500 hover:bg-green-50">
+              <input class="h-4 w-4 accent-green-600" type="radio" name="metodo_ensino" id="q4" value="desagradavel">
+              <span>Desagradável</span>
+            </label>
 
-              <div class="w-full py-7">
-                <input class="a" type="checkbox" name="Questao1" id="q1">
-                <label for="q1">alguma pergunta 1</label>
-              </div>
-
-              <div class="w-full py-7">
-                <input type="checkbox" name="Questao2" id="q2">
-                <label for="q2">alguma pergunta 2</label>
-              </div>
-
-              <div class="w-full py-7">
-                <input type="checkbox" name="Questao3" id="q3">
-                <label for="q3">alguma pergunta 3</label>
-              </div>
-
-              <div class="w-full">
-                <input type="checkbox" name="Questao4" id="q4">
-                <label for="q4">alguma pergunta 4</label>
-              </div>
-
-              <div class="w-full">
-                <input type="checkbox" name="Questao5" id="q5">
-                <label for="q5">alguma pergunta 5</label>
-              </div>
-
-            <div class="col-span-3 w-full">
-                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="adc1">observação complementa</label>
-
-              <textarea name="complemento" id="adc1" class="block w-full min-w-0 box-border resize-y rounded border border-gray-300 bg-slate-100 p-3 text-gray-700" rows="3"></textarea>
-
-            </div>
+            <label for="q5" class="flex cursor-pointer items-center gap-3 rounded-lg border border-gray-200 bg-slate-50 p-4 transition hover:border-green-500 hover:bg-green-50">
+              <input class="h-4 w-4 accent-green-600" type="radio" name="metodo_ensino" id="q5" value="nao_se_aplica">
+              <span>Não se aplica</span>
+            </label>
           </div>
 
+          <div class="mt-6 w-full">
+            <label class="mb-2 block text-xs font-bold uppercase tracking-wide text-gray-700" for="adc1">
+              Observação complementar
+            </label>
+            <textarea name="complemento" id="adc1" class="block min-h-24 w-full min-w-0 resize-y rounded border border-gray-300 bg-slate-100 p-3 text-gray-700 focus:border-green-500 focus:outline-none" rows="3" placeholder="Escreva uma observação, se necessário"></textarea>
+          </div>
+        </fieldset>
 
-        </form>
+      </form>
 
-        <footer class="flex justify-end  max-w-150 mx-auto bg-white py-4 px-11 rounded-lg  shadow-lg">
+        <footer class="flex justify-end md:max-w-180  max-w-150 mx-auto bg-white py-4 px-11 rounded-lg   shadow-lg">
 
-          <button class="bg-green-500 rounded px-2 py-1 hover:bg-green-700  border-emerald-600 hover:border-green-900" type="button">proximo</button>
+          <button class="bg-green-500 rounded  px-2 py-1 my-1 shadow-sm hover:bg-green-700 border-t-gray-950 border border-r-gray-950  border-emerald-600 hover:border-green-900" type="button"><span>Proximo</span></button>
 
         </footer>
 </body>
